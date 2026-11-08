@@ -1,4 +1,4 @@
-import LinkCard from "@/components/LinkCard";
+import LinkList from "@/components/LinkList";
 import ProfileHeader from "@/components/ProfileHeader";
 import { links, profile } from "@/data/profile";
 
@@ -8,13 +8,7 @@ export default function Home() {
       <div className="flex w-full max-w-[26rem] flex-col">
         <ProfileHeader profile={profile} />
 
-        <ul className="mt-12 flex flex-col gap-4 sm:mt-14">
-          {links.map((link) => (
-            <li key={link.id}>
-              <LinkCard link={link} />
-            </li>
-          ))}
-        </ul>
+        <LinkList links={links} />
 
         <p className="mt-auto pt-16 text-center text-xs font-medium tracking-wide text-muted/70">
           링크나무

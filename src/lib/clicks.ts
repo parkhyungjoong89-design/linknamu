@@ -25,3 +25,19 @@ export async function recordClick(linkId: string) {
     console.error("[clicks] 클릭 수 저장 실패:", error);
   }
 }
+
+/** 모든 링크의 클릭 수를 { linkId: count } 형태로 한 번에 가져옵니다. DB가 없거나 실패하면 빈 객체를 돌려줍니다. */
+export async function getClickCounts(): Promise<Record<string, number>> {
+  const db = getDb();
+  if (!db) return {};
+  try {
+    const docs = await (await db)
+      .collection<ClickDoc>("clicks")
+      .find({}, { projection: { _id: 0, linkId: 1, count: 1 } })
+      .toArray();
+    return Object.fromEntries(docs.map((doc) => [doc.linkId, doc.count]));
+  } catch (error) {
+    console.error("[clicks] 클릭 수 조회 실패:", error);
+    return {};
+  }
+}
